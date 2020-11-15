@@ -1,5 +1,5 @@
 {
-  "name": "Booking Front",
+  "name": "BookingFront",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@material-ui/icons": "^4.9.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.10.2",
     "@react-navigation/native": "^5.8.2",

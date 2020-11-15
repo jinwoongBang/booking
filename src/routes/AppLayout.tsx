@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from '@src/pages/LoginScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,7 +11,6 @@ import ThisWeekScreen from '@src/pages/ThisWeekScreen';
 import { RootState } from '@src/slices';
 import { onLoginAction, onRequestLogout } from '@src/slices/userSlice';
 import HomeScreen from '@src/pages/HomeScreen';
-import { Button } from 'react-native';
 
 const commonScreens = {};
 
@@ -44,7 +44,9 @@ function AppLayout() {
             key={name}
             name={name}
             component={component}
-            options={{ headerRight: () => <Button onPress={onLogout} title="Info" color="#fff" /> }}
+            options={{
+              headerRight: () => <Button onPress={onLogout} title="Info" color="#fff" />,
+            }}
           />
         ))}
         {/* test */}
