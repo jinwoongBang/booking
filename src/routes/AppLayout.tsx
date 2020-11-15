@@ -1,33 +1,22 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'react-native';
+import { Button, Text, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import LoginScreen from '@src/pages/LoginScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import LastWeekScreen from '@src/pages/LastWeekScreen';
-import NextWeekScreen from '@src/pages/NextWeekScreen';
-import ThisWeekScreen from '@src/pages/ThisWeekScreen';
+
 import { RootState } from '@src/slices';
 import { onLoginAction, onRequestLogout } from '@src/slices/userSlice';
-import HomeScreen from '@src/pages/HomeScreen';
-
-const commonScreens = {};
-
-const authScreens = {
-  Login: LoginScreen,
-};
-
-const userScreens = {
-  Home: HomeScreen,
-};
+import { commonScreens, userScreens, authScreens } from '@src/routes/paths';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 function AppLayout() {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+
+  const { isLoggedIn, userId } = useSelector((state: RootState) => state.user);
+
   const onLogout = useCallback(() => {
     dispatch(onRequestLogout());
   }, [dispatch]);
@@ -44,9 +33,26 @@ function AppLayout() {
             key={name}
             name={name}
             component={component}
-            options={{
-              headerRight: () => <Button onPress={onLogout} title="Info" color="#fff" />,
-            }}
+            options={
+              isLoggedIn
+                ? {
+                    headerTitle: () => (
+                      <Image
+                        style={{ width: 100, height: 50 }}
+                        source={require('@src/asset/logos/malgn_logo21.png')}
+                      />
+                    ),
+                    headerRight: () => <Button onPress={onLogout} title="로그아웃" />,
+                  }
+                : {
+                    headerTitle: () => (
+                      <Image
+                        style={{ width: 100, height: 50 }}
+                        source={require('@src/asset/logos/malgn_logo21.png')}
+                      />
+                    ),
+                  }
+            }
           />
         ))}
         {/* test */}

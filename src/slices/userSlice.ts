@@ -17,34 +17,32 @@ const initialState: State = {
 };
 
 // 액션과 리듀서를 동시에 생성
-const onLogin: CaseReducer<State, PayloadAction<{ userId: string; password: string }>> = (
-  state,
-  action,
-) => {
-  const { userId, password } = action.payload;
-  state.isLoading = true;
-};
+// const onLogin: CaseReducer<State, PayloadAction<{ userId: string; password: string }>> = (
+//   state,
+//   action,
+// ) => {
+//   const { userId, password } = action.payload;
+//   state.isLoading = true;
+// };
 
-const onLoginSuccess: CaseReducer<State, PayloadAction> = (state, action) => {
-  state.isLoading = false;
-  state.isLoggedIn = true;
-};
+// const onLoginSuccess: CaseReducer<State, PayloadAction> = (state, action) => {
+//   state.isLoading = false;
+//   state.isLoggedIn = true;
+// };
 
-const onLoginFailure: CaseReducer<State, PayloadAction<{ error: Error }>> = (state, action) => {
-  const { error } = action.payload;
-  state.isLoading = false;
-  state.isLoggedIn = false;
-  state.password = '';
-  state.error = error;
-};
+// const onLoginFailure: CaseReducer<State, PayloadAction<{ error: Error }>> = (state, action) => {
+//   const { error } = action.payload;
+//   state.isLoading = false;
+//   state.isLoggedIn = false;
+//   state.password = '';
+//   state.error = error;
+// };
 
 export const onRequestLogin = createAsyncThunk(
   'user/REQEUST_LOGIN',
   async ({ userId, password }: { userId: string; password: string }) => {
     console.log({ userId, password });
-    return {
-      payload: { userId, password },
-    };
+    return { userId, password };
   },
 );
 
@@ -55,21 +53,19 @@ export const onRequestLogout = createAsyncThunk('user/REQEUST_LOGOUT', async () 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    onLogin,
-    onLoginSuccess,
-    onLoginFailure,
-  },
+  reducers: {},
   extraReducers: {
     [onRequestLogin.pending.type]: (state: State, action) => {
       console.log('로그인 시도');
-      const { userId, password } = action.meta;
+      console.log({ action });
+      const { userId, password } = action.meta.arg;
       state.isLoading = true;
       state.userId = userId;
       state.password = password;
     },
-    [onRequestLogin.fulfilled.type]: (state: State) => {
+    [onRequestLogin.fulfilled.type]: (state: State, action) => {
       console.log('로그인 성공');
+      console.log({ action });
       state.isLoading = false;
       state.isLoggedIn = true;
     },
