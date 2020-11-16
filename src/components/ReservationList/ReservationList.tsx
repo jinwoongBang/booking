@@ -1,23 +1,32 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { StyleSheet, View } from 'react-native';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { DataList } from '@src/commons/constants/KeyFlowConstants';
 import { ReservationItem } from '@src/components/ReservationList';
+import { ReservationListProps } from '@src/components/ReservationList/type';
 
 const styles = StyleSheet.create({
+  root: {},
   listContainer: {
-    paddingTop: 20,
+    paddingVertical: 20,
   },
 });
 
-function ReservationList() {
+function ReservationList({ onOpenModal }: ReservationListProps) {
   return (
-    <FlatList
-      data={DataList}
-      renderItem={({ item }) => <ReservationItem title={item.title} time={item.time} />}
-      keyExtractor={item => item.id}
-      style={styles.listContainer}
-    />
+    <View style={styles.root}>
+      <ScrollView style={styles.listContainer}>
+        {DataList.map((item, index) => (
+          <ReservationItem
+            key={item.id}
+            title={item.title}
+            time={item.time}
+            isLast={index === DataList.length - 1}
+            onOpenModal={onOpenModal}
+          />
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
